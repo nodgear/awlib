@@ -1,4 +1,4 @@
-function AwUI:Ease(t, b, c, d)
+function Aw.UI:Ease(t, b, c, d)
 	t = t / d
 	local ts = t * t
 	local tc = ts * t
@@ -7,7 +7,7 @@ function AwUI:Ease(t, b, c, d)
 	return b + c * (-2 * tc + 3 * ts)
 end
 
-function AwUI:EaseInOutQuintic(t, b, c, d)
+function Aw.UI:EaseInOutQuintic(t, b, c, d)
 	t = t / d
 	local ts = t * t
 	local tc = ts * t

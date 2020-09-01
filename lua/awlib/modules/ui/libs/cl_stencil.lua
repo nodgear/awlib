@@ -1,5 +1,5 @@
 
-function AwUI:MaskInverse(maskFn, drawFn, pixel)
+function Aw.UI:MaskInverse(maskFn, drawFn, pixel)
 	pixel = pixel or 1
 
 	render.ClearStencil()
@@ -30,7 +30,7 @@ function AwUI:MaskInverse(maskFn, drawFn, pixel)
 	render.ClearStencil()
 end
 
-function AwUI:Mask(maskFn, drawFn, pixel)
+function Aw.UI:Mask(maskFn, drawFn, pixel)
 	pixel = pixel or 1
 
 	render.ClearStencil()
@@ -62,7 +62,7 @@ function AwUI:Mask(maskFn, drawFn, pixel)
 end
 
 
-function AwUI:MaskEntity(BgDraw, entityDraw)
+function Aw.UI:MaskEntity(BgDraw, entityDraw)
     render.SetStencilWriteMask( 0xFF )
         render.SetStencilTestMask( 0xFF )
         render.SetStencilReferenceValue( 0 )
