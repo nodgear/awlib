@@ -1,15 +1,15 @@
 local promises = {}
 
-function AWESOME:ServerRequest(sIdentifier, fCallback, ...)
+function Aw:ServerRequest(sIdentifier, fCallback, ...)
     promises[sIdentifier] = fCallback
 
-    net.Start("AWESOME.ClientRequest")
+    net.Start("AW.ClientRequest")
         net.WriteString(sIdentifier)
         net.WriteTable({...})
     net.SendToServer()
 end
 
-net.Receive("AWESOME.ServerResponse", function(len)
+net.Receive("AW.ServerResponse", function(len)
     local identifier = net.ReadString()
     local response = net.ReadType()
 
