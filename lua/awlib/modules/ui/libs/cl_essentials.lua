@@ -1,4 +1,4 @@
-function AwUI:CreateFont(sName, iSize, sFont, iWeight, tMerge)
+function Aw.UI:CreateFont(sName, iSize, sFont, iWeight, tMerge)
     local tbl = {
 		font = sFont or "Montserrat Regular",
 		size = (iSize + 2) or 16,
@@ -22,7 +22,7 @@ end
 -- @color color Color
 -- @number seg Segments (points)
 -- @realm client
-function AwUI:DrawArc(x, y, ang, p, rad, color, seg)
+function Aw.UI:DrawArc(x, y, ang, p, rad, color, seg)
 	seg = seg or 80
 	ang = (-ang) + 180
 	local circle = {}
@@ -47,7 +47,7 @@ end
 -- @number seg Segments (points)
 -- @realm client
 -- @treturn table circle
-function AwUI:CalculateArc(x, y, ang, p, rad, seg)
+function Aw.UI:CalculateArc(x, y, ang, p, rad, seg)
 	seg = seg or 80
 	ang = (-ang) + 180
 	local circle = {}
@@ -65,13 +65,13 @@ end
 -- @string Variable with the circle table
 -- @color color Color
 -- @realm client
-function AwUI:DrawCachedArc(circle, color)
+function Aw.UI:DrawCachedArc(circle, color)
 	surface.SetDrawColor(color)
 	draw.NoTexture()
 	surface.DrawPoly(circle)
 end
 
-function AwUI:DrawShadowText(text, font, x, y, col, xAlign, yAlign, amt, shadow)
+function Aw.UI:DrawShadowText(text, font, x, y, col, xAlign, yAlign, amt, shadow)
     for i = 1, amt do
       draw.SimpleText(text, font, x + i, y + i, Color(0, 0, 0, i * (shadow or 50)), xAlign, yAlign)
     end
@@ -79,7 +79,7 @@ function AwUI:DrawShadowText(text, font, x, y, col, xAlign, yAlign, amt, shadow)
     draw.SimpleText(text, font, x, y, col, xAlign, yAlign)
 end
 
-function AwUI:DrawRoundedBoxEx(radius, x, y, w, h, col, tl, tr, bl, br)
+function Aw.UI:DrawRoundedBoxEx(radius, x, y, w, h, col, tl, tr, bl, br)
 	--Validate input
 	x = math.floor(x)
 	y = math.floor(y)
@@ -102,47 +102,47 @@ function AwUI:DrawRoundedBoxEx(radius, x, y, w, h, col, tl, tr, bl, br)
 
 	--Draw the four corner arcs
 	if(tl) then
-		AwUI:DrawArc(x+radius, y+radius, 270, 90, radius, col, radius)
+		Aw.UI:DrawArc(x+radius, y+radius, 270, 90, radius, col, radius)
 	else
 		surface.SetDrawColor(col)
 		surface.DrawRect(x, y, radius, radius)
 	end
 
 	if(tr) then
-		AwUI:DrawArc(x+w-radius, y+radius, 0, 90, radius, col, radius)
+		Aw.UI:DrawArc(x+w-radius, y+radius, 0, 90, radius, col, radius)
 	else
 		surface.SetDrawColor(col)
 		surface.DrawRect(x+w-radius, y, radius, radius)
 	end
 
 	if(bl) then
-		AwUI:DrawArc(x+radius, y+h-radius, 180, 90, radius, col, radius)
+		Aw.UI:DrawArc(x+radius, y+h-radius, 180, 90, radius, col, radius)
 	else
 		surface.SetDrawColor(col)
 		surface.DrawRect(x, y+h-radius, radius, radius)
 	end
 
 	if(br) then
-		AwUI:DrawArc(x+w-radius, y+h-radius, 90, 90, radius, col, radius)
+		Aw.UI:DrawArc(x+w-radius, y+h-radius, 90, 90, radius, col, radius)
 	else
 		surface.SetDrawColor(col)
 		surface.DrawRect(x+w-radius, y+h-radius, radius, radius)
 	end
 end
 
-function AwUI:DrawRoundedBox(radius, x, y, w, h, col)
-	AwUI:DrawRoundedBoxEx(radius, x, y, w, h, col, true, true, true, true)
+function Aw.UI:DrawRoundedBox(radius, x, y, w, h, col)
+	Aw.UI:DrawRoundedBoxEx(radius, x, y, w, h, col, true, true, true, true)
 end
 
 local matLoading = Material("xenin/loading.png", "smooth")
 
-function AwUI:DrawLoadingCircle(x, y, size, col)
+function Aw.UI:DrawLoadingCircle(x, y, size, col)
   surface.SetMaterial(matLoading)
   surface.SetDrawColor(col or ColorAlpha(XeninUI.Theme.Accent, 100))
-  AwUI:DrawRotatedTexture(x, y, size, size, ((ct or CurTime()) % 360) * -100)
+  Aw.UI:DrawRotatedTexture(x, y, size, size, ((ct or CurTime()) % 360) * -100)
 end
 
-function AwUI:DrawRotatedTexture( x, y, w, h, angle, cx, cy )
+function Aw.UI:DrawRotatedTexture( x, y, w, h, angle, cx, cy )
 	cx,cy = cx or w/2,cy or w/2
 	if( cx == w/2 and cy == w/2 ) then
 		surface.DrawTexturedRectRotated( x, y, w, h, angle )

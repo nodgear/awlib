@@ -1,2 +1,2 @@
-AwUI = AwUI or {}
-AwUI.TransitionTime = .3
+Aw.UI = {}
+Aw.UI.TransitionTime = .3

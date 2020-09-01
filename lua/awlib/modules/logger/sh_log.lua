@@ -101,7 +101,7 @@ local function LogPrint( err, module, file, line, realmcolor, typecolor, ...)
 
 end
 
-function AWESOME:Log(err, type, ...)
+function Aw:Log(err, type, ...)
     if !AWESOME.Debug  then return end
     local info = debug.getinfo(2)
     if !type or !tTypeColors[type] then type = "default" end

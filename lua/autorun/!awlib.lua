@@ -3,5 +3,5 @@ _MODULES.awlib = true
 
 require "xloader"
 
-AWESOME = AWESOME or {}
+Aw = Aw or {}
 xloader("awlib", function(f) include(f) end)

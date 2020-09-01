@@ -1,19 +1,19 @@
 local pnl = FindMetaTable("Panel")
 
 function pnl:LerpColor(var, to, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local color = self[var]
 	local anim = self:NewAnimation(duration)
 	anim.Color = to
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.StartColor) then
 			anim.StartColor = color
 		end
 
-		local newColor = AwUI:LerpColor(newFract, anim.StartColor, anim.Color)
+		local newColor = Aw.UI:LerpColor(newFract, anim.StartColor, anim.Color)
 		self[var] = newColor
 	end
 	anim.OnEnd = function()
@@ -24,19 +24,19 @@ function pnl:LerpColor(var, to, duration, callback)
 end
 
 function pnl:LerpVector(var, to, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local vector = self[var]
 	local anim = self:NewAnimation(duration)
 	anim.Vector = to
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.StartVector) then
 			anim.StartVector = vector
 		end
 
-		local newColor = AwUI:LerpVector(newFract, anim.StartVector, anim.Vector)
+		local newColor = Aw.UI:LerpVector(newFract, anim.StartVector, anim.Vector)
 		self[var] = newColor
 	end
 	anim.OnEnd = function()
@@ -47,19 +47,19 @@ function pnl:LerpVector(var, to, duration, callback)
 end
 
 function pnl:LerpAngle(var, to, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local angle = self[var]
 	local anim = self:NewAnimation(duration)
 	anim.Angle = to
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.StartAngle) then
 			anim.StartAngle = angle
 		end
 
-		local newColor = AwUI:LerpAngle(newFract, anim.StartAngle, anim.Angle)
+		local newColor = Aw.UI:LerpAngle(newFract, anim.StartAngle, anim.Angle)
 		self[var] = newColor
 	end
 	anim.OnEnd = function()
@@ -77,13 +77,13 @@ function pnl:EndAnimations()
 end
 
 function pnl:Lerp(var, to, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local varStart = self[var]
 	local anim = self:NewAnimation(duration)
 	anim.Goal = to
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.Start) then
 			anim.Start = varStart
@@ -100,12 +100,12 @@ function pnl:Lerp(var, to, duration, callback)
 end
 
 function pnl:LerpMove(x, y, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local anim = self:NewAnimation(duration)
 	anim.Pos = Vector(x, y)
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.StartPos) then
 			anim.StartPos = Vector(pnl.x, pnl.y, 0)
@@ -122,12 +122,12 @@ function pnl:LerpMove(x, y, duration, callback)
 end
 
 function pnl:LerpMoveY(y, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local anim = self:NewAnimation(duration)
 	anim.Pos = y
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.StartPos) then
 			anim.StartPos = pnl.y
@@ -144,12 +144,12 @@ function pnl:LerpMoveY(y, duration, callback)
 end
 
 function pnl:LerpMoveX(x, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local anim = self:NewAnimation(duration)
 	anim.Pos = x
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.StartPos) then
 			anim.StartPos = pnl.x
@@ -166,8 +166,8 @@ function pnl:LerpMoveX(x, duration, callback)
 end
 
 function pnl:LerpHeight(height, duration, callback, easeFunc)
-	if (!duration) then duration = AwUI.TransitionTime end
-	if (!easeFunc) then easeFunc = function(a, b, c, d) return AwUI:Ease(a, b, c, d) end end
+	if (!duration) then duration = Aw.UI.TransitionTime end
+	if (!easeFunc) then easeFunc = function(a, b, c, d) return Aw.UI:Ease(a, b, c, d) end end
 
 	local anim = self:NewAnimation(duration)
 	anim.Height = height
@@ -189,8 +189,8 @@ function pnl:LerpHeight(height, duration, callback, easeFunc)
 end
 
 function pnl:LerpWidth(width, duration, callback, easeFunc)
-	if (!duration) then duration = AwUI.TransitionTime end
-	if (!easeFunc) then easeFunc = function(a, b, c, d) return AwUI:Ease(a, b, c, d) end end
+	if (!duration) then duration = Aw.UI.TransitionTime end
+	if (!easeFunc) then easeFunc = function(a, b, c, d) return Aw.UI:Ease(a, b, c, d) end end
 
 	local anim = self:NewAnimation(duration)
 	anim.Width = width
@@ -212,12 +212,12 @@ function pnl:LerpWidth(width, duration, callback, easeFunc)
 end
 
 function pnl:LerpSize(w, h, duration, callback)
-	if (!duration) then duration = AwUI.TransitionTime end
+	if (!duration) then duration = Aw.UI.TransitionTime end
 
 	local anim = self:NewAnimation(duration)
 	anim.Size = Vector(w, h)
 	anim.Think = function(anim, pnl, fract)
-		local newFract = AwUI:Ease(fract, 0, 1, 1)
+		local newFract = Aw.UI:Ease(fract, 0, 1, 1)
 
 		if (!anim.StartSize) then
 			anim.StartSize = Vector(pnl:GetWide(), pnl:GetWide(), 0)
@@ -233,7 +233,7 @@ function pnl:LerpSize(w, h, duration, callback)
 	end
 end
 
-if !AwUI.__AddedPanelFunctions then
+if !Aw.UI.__AddedPanelFunctions then
 	local pnl = FindMetaTable("Panel")
 	local Old_Remove = Old_Remove or pnl.Remove
 
@@ -302,6 +302,6 @@ if !AwUI.__AddedPanelFunctions then
 		end)
 	end
 
-	AwUI.__AddedPanelFunctions = true
+	Aw.UI.__AddedPanelFunctions = true
 end
 

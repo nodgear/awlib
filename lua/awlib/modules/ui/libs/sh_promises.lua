@@ -333,4 +333,4 @@ end
 --- @param value promise value
 --- @return rejected future result
 
-AwUI.Promises = M
+Aw.UI.Promises = M
