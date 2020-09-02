@@ -4,7 +4,7 @@ local function buildRequestIdentifier(identifier)
     return string.format("%s:%s", math.random(1, 1000000), identifier)
 end
 
-function Aw:ServerRequest(sIdentifier, fCallback, ...)
+function Aw.Net:ServerRequest(sIdentifier, fCallback, ...)
     local requestIdentifier = buildRequestIdentifier(sIdentifier)
     promises[requestIdentifier] = fCallback
 
