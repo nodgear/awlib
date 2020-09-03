@@ -1,3 +1,21 @@
+--[[
+	LICENSE:
+	Definitions:
+		the Xenin/XeninUI Copyright Owner (hereby Patrick Ratzow) under Custom Software License
+		the Awesome Copyright Owner (hereby Matheus A.) under Custom Software License
+		the XLib Copyright Owner (hereby Xavier B.) under MIT License
+		the Software (hereby the Library and it's contents)
+		Garry's Mod Marketplace is any online and offline marketplace that sells Garry's Mod game modifications in any way, including, but not limited to Gmodstore.com
+
+	Ownership:
+		the use of this library is intended, but not limited to the use by Awesome Copyright owner on Garry's Mod Marketplace
+		modifying, selling or sharing this piece of software is not allowed unless respecting all above licenses
+
+]]--
+
+-- Module: Async Image download
+-- Author:
+--      Xenin Team
 Aw.UI.CachedIcons = Aw.UI.CachedIcons or {}
 
 if (!file.IsDir("awesome/icons", "DATA")) then
@@ -6,7 +24,7 @@ end
 
 
 local function DownloadImage(tbl)
-	local p = Aw.UI.Promises.new()
+	local p = Aw.Promises.new()
 
 	if (!isstring(tbl.id)) then
 		return p:reject("ID invalid")
@@ -45,7 +63,7 @@ end
 function Aw.UI:DownloadIcon(pnl, tbl, pnlVar)
 	if (!tbl) then return end
 
-	local p = Aw.UI.Promises.new()
+	local p = Aw.Promises.new()
 
 	if (isstring(tbl)) then
 		tbl = { { id = tbl } }

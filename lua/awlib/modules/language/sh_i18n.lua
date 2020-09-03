@@ -1,3 +1,22 @@
+--[[
+	LICENSE:
+	Definitions:
+		the Xenin/XeninUI Copyright Owner (hereby Patrick Ratzow) under Custom Software License
+		the Awesome Copyright Owner (hereby Matheus A.) under Custom Software License
+		the XLib Copyright Owner (hereby Xavier B.) under MIT License
+		the Software (hereby the Library and it's contents)
+		Garry's Mod Marketplace is any online and offline marketplace that sells Garry's Mod game modifications in any way, including, but not limited to Gmodstore.com
+
+	Ownership:
+		the use of this library is intended, but not limited to the use by Awesome Copyright owner on Garry's Mod Marketplace
+		modifying, selling or sharing this piece of software is not allowed unless respecting all above licenses
+
+]]--
+
+-- Module: Awesome i18n for Garry'sMOD
+-- Author:
+--      Nodge (Matheus A.)
+
 Aw.L = Aw.L or {
     api_url    = "https://api.github.com/repos/",
     repo       = "AwData",
@@ -45,8 +64,9 @@ function Aw.L:Translate(sAddon, sPhrase, ...)
     local context    = base[1]
     local str = base[2]
 
+    if !self[sAddon] then return end
+
     if self[sAddon]["phrases"] then
-        print("tem phrase")
         local i18n   = self[sAddon]["phrases"][context][str] or sPhrase
         result = i18n and (select("#", ...) > 0 and string.format(i18n, ...) or i18n) or sPhrase
     end
