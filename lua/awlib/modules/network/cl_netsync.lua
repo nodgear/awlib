@@ -46,8 +46,8 @@ net.Receive("AW.SyncTable", function(len)
         end
     end
 
-    local proxiesResult = Aw.Net:CallProxies(identifier, syncTables[identifier].value, LocalPlayer())
+    local proxiesResult = Aw.Net:CallProxies(identifier, LocalPlayer(), target, syncFlag)
     if proxiesResult ~= false then
-        syncTables[identifier].callback(proxiesResult)
+        syncTables[identifier].callback(syncTables[identifier].value)
     end
 end)

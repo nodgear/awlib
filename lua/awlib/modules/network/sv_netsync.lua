@@ -23,7 +23,7 @@ local function getPlayers(identifier, currentTable)
 
     for k, ply in ipairs(syncTables[identifier].listeners) do
         if IsValid(ply) then
-            local proxiesResult = Aw.Net:CallProxies(identifier, currentTable, ply)
+            local proxiesResult = Aw.Net:CallProxies(identifier, ply, currentTable, Aw.SyncFlag.Merge)
             if proxiesResult ~= false then
                 recipient:AddPlayer(ply)
             end
@@ -66,7 +66,7 @@ function Aw.Net:SyncTable(sIdentifier, tValue)
         currentTable = getTableDiff(tValue, currentTable)
     end
 
-    syncTable.value = tValue
+    syncTable.value = table.Copy(tValue)
 
     local recipient = getPlayers(sIdentifier, currentTable)
 
@@ -85,7 +85,7 @@ net.Receive("AW.SyncTable", function(len, ply)
 
     table.insert(syncTable.listeners, ply)
 
-    local proxiesResult = Aw.Net:CallProxies(identifier, syncTable.value, ply)
+    local proxiesResult = Aw.Net:CallProxies(identifier, ply, syncTable.value, Aw.SyncFlag.InitialValue)
     if proxiesResult ~= false then
         net.Start("AW.SyncTable")
             net.WriteString(identifier)
