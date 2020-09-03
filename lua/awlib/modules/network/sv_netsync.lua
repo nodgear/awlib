@@ -38,24 +38,6 @@ local function getSyncTable(identifier)
     return syncTables[identifier]
 end
 
-local function getTableDiff(source, target)
-    local diff = {}
-
-    for key, value in pairs(source) do
-        if target[key] == nil then
-            diff[key] = value
-        end
-    end
-
-    for key, value in pairs(target) do
-        if source[key] == nil then
-            diff[key] = table.NIL
-        end
-    end
-
-    return diff
-end
-
 function Aw.Net:SyncTable(sIdentifier, tValue)
     local syncTable = getSyncTable(sIdentifier)
     local currentTable = syncTable.value
@@ -66,7 +48,7 @@ function Aw.Net:SyncTable(sIdentifier, tValue)
         currentTable = tValue
     else
         type = Aw.SyncFlag.Merge
-        currentTable = getTableDiff(tValue, currentTable)
+        currentTable = table.ShallowDiff(tValue, currentTable)
     end
 
     syncTable.value = table.Copy(tValue)
