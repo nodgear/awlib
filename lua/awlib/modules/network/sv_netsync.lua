@@ -1,11 +1,14 @@
 local syncTables = {}
 
-local function getPlayers(identifier)
+local function getPlayers(identifier, currentTable)
     local recipient = RecipientFilter()
 
     for k, ply in ipairs(syncTables[identifier].listeners) do
         if IsValid(ply) then
-            recipient:AddPlayer(ply)
+            local proxiesResult = Aw.Net:CallProxies(identifier, currentTable, ply)
+            if proxiesResult ~= false then
+                recipient:AddPlayer(ply)
+            end
         end
     end
 
@@ -40,19 +43,19 @@ function Aw.Net:SyncTable(sIdentifier, tValue)
     local currentTable = syncTable.value
 
     if not currentTable then
-        tableToSend = tValue
+        currentTable = tValue
     else
-        tableToSend = getTableDiff(tValue, currentTable)
+        currentTable = getTableDiff(tValue, currentTable)
     end
 
     syncTable.value = tValue
 
-    local recipient = getPlayers(sIdentifier)
+    local recipient = getPlayers(sIdentifier, currentTable)
 
     net.Start("AW.SyncTable")
         net.WriteString(sIdentifier)
         net.WriteUInt(Aw.SyncFlag.Merge, 2)
-        net.WriteTable(tableToSend)
+        net.WriteTable(currentTable)
     net.Send(recipient)
 end
 
@@ -64,9 +67,12 @@ net.Receive("AW.SyncTable", function(len, ply)
 
     table.insert(syncTable.listeners, ply)
 
-    net.Start("AW.SyncTable")
-        net.WriteString(identifier)
-        net.WriteUInt(Aw.SyncFlag.InitialValue, 2)
-        net.WriteTable(syncTable.value or {})
-    net.Send(ply)
+    local proxiesResult = Aw.Net:CallProxies(identifier, syncTable.value, ply)
+    if proxiesResult ~= false then
+        net.Start("AW.SyncTable")
+            net.WriteString(identifier)
+            net.WriteUInt(Aw.SyncFlag.InitialValue, 2)
+            net.WriteTable(syncTable.value or {})
+        net.Send(ply)
+    end
 end)
