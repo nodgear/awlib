@@ -59,10 +59,13 @@ end
 function Aw.Net:SyncTable(sIdentifier, tValue)
     local syncTable = getSyncTable(sIdentifier)
     local currentTable = syncTable.value
+    local type
 
     if not currentTable then
+        type = Aw.SyncFlag.InitialValue
         currentTable = tValue
     else
+        type = Aw.SyncFlag.Merge
         currentTable = getTableDiff(tValue, currentTable)
     end
 
@@ -72,7 +75,7 @@ function Aw.Net:SyncTable(sIdentifier, tValue)
 
     net.Start("AW.SyncTable")
         net.WriteString(sIdentifier)
-        net.WriteUInt(Aw.SyncFlag.Merge, 2)
+        net.WriteUInt(type, 2)
         net.WriteTable(currentTable)
     net.Send(recipient)
 end
@@ -85,12 +88,14 @@ net.Receive("AW.SyncTable", function(len, ply)
 
     table.insert(syncTable.listeners, ply)
 
-    local proxiesResult = Aw.Net:CallProxies(identifier, ply, syncTable.value, Aw.SyncFlag.InitialValue)
-    if proxiesResult ~= false then
-        net.Start("AW.SyncTable")
-            net.WriteString(identifier)
-            net.WriteUInt(Aw.SyncFlag.InitialValue, 2)
-            net.WriteTable(syncTable.value or {})
-        net.Send(ply)
+    if syncTable.value then
+        local proxiesResult = Aw.Net:CallProxies(identifier, ply, syncTable.value, Aw.SyncFlag.InitialValue)
+        if proxiesResult ~= false then
+            net.Start("AW.SyncTable")
+                net.WriteString(identifier)
+                net.WriteUInt(Aw.SyncFlag.InitialValue, 2)
+                net.WriteTable(syncTable.value)
+            net.Send(ply)
+        end
     end
 end)
