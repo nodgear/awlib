@@ -75,13 +75,13 @@ function table.TrueRandom(tbl)
     return tbl[n]
 end
 
-function table.ShallowDiff(source, target)
+function table.ShallowDiff(source, target, ignoreDeep)
     local diff = {}
 
     for key, value in pairs(source) do
         if target[key] == nil then
             diff[key] = value
-        elseif istable(value) then
+        elseif istable(value) and not ignoreDeep then
             local deepDiff = table.ShallowDiff(value, target[key])
 
             if #deepDiff > 0 then
