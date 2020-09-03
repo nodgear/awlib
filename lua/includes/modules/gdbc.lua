@@ -196,7 +196,7 @@ function Query:run(...)
 					s = self.sequence.database:escape(s)
 				end
 
-				if isnumber(s) then
+				if isnumber(s) or s == 'NULL' then
 					sql = sql .. s
 				else
 					sql = sql .. "'" .. s .. "'"
