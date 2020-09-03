@@ -77,18 +77,15 @@ end
 
 function table.ShallowDiff(source, target)
     local diff = {}
-    local hasDifferences = false
 
     for key, value in pairs(source) do
         if target[key] == nil then
             diff[key] = value
-            hasDifferences = true
         elseif istable(value) then
-            local _, hasDeepDifferences = table.ShallowDiff(value, target[key])
+            local deepDiff = table.ShallowDiff(value, target[key])
 
-            if hasDeepDifferences then
+            if #deepDiff > 0 then
                 diff[key] = value
-                hasDifferences = true
             end
         end
     end
@@ -96,9 +93,8 @@ function table.ShallowDiff(source, target)
     for key, value in pairs(target) do
         if source[key] == nil then
             diff[key] = table.NIL
-            hasDifferences = true
         end
     end
 
-    return diff, hasDifferences
+    return diff
 end
