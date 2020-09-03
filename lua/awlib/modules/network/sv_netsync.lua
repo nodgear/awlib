@@ -58,7 +58,7 @@ function Aw.Net:SyncTable(sIdentifier, tValue)
     net.Start("AW.SyncTable")
         net.WriteString(sIdentifier)
         net.WriteUInt(type, 2)
-        net.WriteTable(currentTable)
+        net.SafeWriteTable(currentTable)
     net.Send(recipient)
 end
 
@@ -76,7 +76,7 @@ net.Receive("AW.SyncTable", function(len, ply)
             net.Start("AW.SyncTable")
                 net.WriteString(identifier)
                 net.WriteUInt(Aw.SyncFlag.InitialValue, 2)
-                net.WriteTable(syncTable.value)
+                net.SafeWriteTable(syncTable.value)
             net.Send(ply)
         end
     end
