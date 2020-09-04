@@ -1,65 +1,100 @@
 function table.Invert(src, key, idnum)
-	local ret = {}
+    local ret = {}
+    if not istable(src) then return end
 
-	if not istable(src) then return end
+    for k, v in pairs(src) do
+        if key and istable(v) then
+            if v[key] then
+                ret[v[key]] = v
 
-	for k, v in pairs(src) do
-		if key and istable(v) then
-			if v[key] then
-				ret[v[key]] = v
-				if idnum then
-					v.IDNUM = k
-				end
-			end
-		else
-			ret[v] = k
-		end
-	end
+                if idnum then
+                    v.IDNUM = k
+                end
+            end
+        else
+            ret[v] = k
+        end
+    end
 
-	return ret
+    return ret
 end
 
 function table.StoreKeys(src, key)
-	key = key or "IDNUM"
+    key = key or "IDNUM"
 
-	for k, v in pairs(src) do
-		if istable(v) then
-			v[key] = k
-		end
-	end
-	return src
+    for k, v in pairs(src) do
+        if istable(v) then
+            v[key] = k
+        end
+    end
+
+    return src
 end
 
 -- The following allows you to safely pack varargs while retaining nil values
-table.NIL = table.NIL or setmetatable({}, {__tostring=function() return "nil" end})
+table.NIL = table.NIL or setmetatable({}, {
+    __tostring = function() return "nil" end
+})
+
 function table.PackNil(...)
-	local t = {}
-	for i=1, select("#", ...) do
-		local v = select(i, ...)
+    local t = {}
 
-		if v == nil then v = table.NIL end
+    for i = 1, select("#", ...) do
+        local v = select(i, ...)
 
-		table.insert(t, v)
-	end
+        if v == nil then
+            v = table.NIL
+        end
 
-	return t
+        table.insert(t, v)
+    end
+
+    return t
 end
 
 function table.UnpackNil(t, nocopy)
-	if #t == 0 then return end
+    if #t == 0 then return end
 
-	if not nocopy then
-		t = table.Copy(t)
-	end
+    if not nocopy then
+        t = table.Copy(t)
+    end
 
-	local v = table.remove(t, 1)
-	if v == table.NIL then v = nil end
+    local v = table.remove(t, 1)
 
-	return v, table.UnpackNil(t, true)
+    if v == table.NIL then
+        v = nil
+    end
+
+    return v, table.UnpackNil(t, true)
 end
 
 -- Only works on sequential tables. The other implementation of table randomness is complete jank.
 function table.TrueRandom(tbl)
-	local n = random.RandomInt(1, #tbl)
-	return tbl[n]
+    local n = random.RandomInt(1, #tbl)
+
+    return tbl[n]
+end
+
+function table.ShallowDiff(source, target, ignoreDeep)
+    local diff = {}
+
+    for key, value in pairs(source) do
+        if target[key] == nil then
+            diff[key] = value
+        elseif istable(value) and not ignoreDeep then
+            local deepDiff = table.ShallowDiff(value, target[key])
+
+            if #deepDiff > 0 then
+                diff[key] = value
+            end
+        end
+    end
+
+    for key, value in pairs(target) do
+        if source[key] == nil then
+            diff[key] = table.NIL
+        end
+    end
+
+    return diff
 end
