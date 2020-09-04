@@ -210,7 +210,7 @@ function Aw:Log(sType, sLog, ...)
     end
 
     if istable(sLog) then
-        sLog = table.ToString(sLog, "[TABLE] [" .. SPrint(...) .. "]\n Output:", true)
+        sLog = table.ToString(sLog, "[TABLE] [" .. SPrint(...) .. "]\n Output:", true) .. "\n"
     end
 
     if tFileColors[sFile] then
