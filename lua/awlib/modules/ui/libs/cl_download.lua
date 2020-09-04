@@ -16,6 +16,10 @@
 -- Module: Async Image download
 -- Author:
 --      Xenin Team
+--		Nodge
+-- 		Sneaky Squid
+
+
 Aw.UI.CachedIcons = Aw.UI.CachedIcons or {}
 
 if (!file.IsDir("awesome/icons", "DATA")) then
