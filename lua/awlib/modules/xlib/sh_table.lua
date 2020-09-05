@@ -76,28 +76,27 @@ function table.TrueRandom(tbl)
 end
 
 function table.Equals(source, target)
-    local ty1 = type(t1)
-    local ty2 = type(t2)
+    local sourceType, targetType = type(source), type(target)
 
-    if ty1 ~= ty2 then
+    if sourceType ~= targetType then
         return false
     end
 
     -- non-table types can be directly compared
-    if ty1 ~= "table" and ty2 ~= "table" then
-        return t1 == t2
+    if not istable(source) or not istable(target) then
+        return source == target
     end
 
-    for k1, v1 in pairs(t1) do
-        local v2 = t2[k1]
-        if v2 == nil or not deepcompare(v1, v2) then
+    for k1, v1 in pairs(source) do
+        local v2 = target[k1]
+        if v2 == nil or not table.Equals(v1, v2) then
             return false
         end
     end
 
-    for k2, v2 in pairs(t2) do
-        local v1 = t1[k2]
-        if v1 == nil or not deepcompare(v1, v2) then
+    for k2, v2 in pairs(target) do
+        local v1 = source[k2]
+        if v1 == nil or not table.Equals(v1, v2) then
             return false
         end
     end
@@ -109,7 +108,7 @@ function table.ShallowDiff(source, target)
     local diff = {}
 
     for key, value in pairs(source) do
-        if target[key] == nil or table.Equals(value, target[key]) then
+        if target[key] == nil or not table.Equals(value, target[key]) then
             diff[key] = value
         end
     end
