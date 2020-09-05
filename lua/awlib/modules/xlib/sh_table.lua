@@ -75,18 +75,42 @@ function table.TrueRandom(tbl)
     return tbl[n]
 end
 
-function table.ShallowDiff(source, target, ignoreDeep)
+function table.Equals(source, target)
+    local ty1 = type(t1)
+    local ty2 = type(t2)
+
+    if ty1 ~= ty2 then
+        return false
+    end
+
+    -- non-table types can be directly compared
+    if ty1 ~= "table" and ty2 ~= "table" then
+        return t1 == t2
+    end
+
+    for k1, v1 in pairs(t1) do
+        local v2 = t2[k1]
+        if v2 == nil or not deepcompare(v1, v2) then
+            return false
+        end
+    end
+
+    for k2, v2 in pairs(t2) do
+        local v1 = t1[k2]
+        if v1 == nil or not deepcompare(v1, v2) then
+            return false
+        end
+    end
+
+    return true
+end
+
+function table.ShallowDiff(source, target)
     local diff = {}
 
     for key, value in pairs(source) do
-        if target[key] == nil then
+        if target[key] == nil or table.Equals(value, target[key]) then
             diff[key] = value
-        elseif istable(value) and not ignoreDeep then
-            local deepDiff = table.ShallowDiff(value, target[key])
-
-            if #deepDiff > 0 then
-                diff[key] = value
-            end
         end
     end
 
@@ -97,4 +121,25 @@ function table.ShallowDiff(source, target, ignoreDeep)
     end
 
     return diff
+end
+
+function table.CreateProxied(reference, changeCallback)
+    local proxy = {}
+
+    local proxiedTableBase = {
+        __index = function(t, k)
+            if istable(reference[k]) then
+                return table.CreateProxied(reference[k], changeCallback)
+            else
+                return reference[k]
+            end
+        end,
+        __newindex = function(t, k, v)
+            reference[k] = v
+            changeCallback(k, v)
+        end,
+        IsProxied = function() return true end
+    }
+
+    return setmetatable(proxy, proxiedTableBase)
 end
