@@ -33,6 +33,15 @@ function Aw.Net:SyncTable(sIdentifier, fCallback)
     end
 end
 
+function Aw.Net:EnsureSyncTable(sIdentifier)
+    local isListening = syncTables[sIdentifier]
+    if isListening then
+        net.Start("AW.SyncTable")
+            net.WriteString(sIdentifier)
+        net.SendToServer()
+    end
+end
+
 net.Receive("AW.SyncTable", function(len)
     local identifier = net.ReadString()
     local syncFlag = net.ReadUInt(2)

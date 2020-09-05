@@ -11,55 +11,51 @@
 		the use of this library is intended, but not limited to the use by Awesome Copyright owner on Garry's Mod Marketplace
 		modifying, selling or sharing this piece of software is not allowed unless respecting all above licenses
 
-]]--
-
+]]
+--
 -- Module: Awesome Network Helper and Wrapper
 -- Author: Ceifa (Gabriel Francisco)
-
 local syncTables = {}
 
-local function getPlayers(identifier, currentTable)
-    local recipient = RecipientFilter()
-
-    for k, ply in ipairs(syncTables[identifier].listeners) do
-        if IsValid(ply) then
-            local proxiesResult = Aw.Net:CallProxies(identifier, ply, currentTable, Aw.SyncFlag.Merge)
-            if proxiesResult ~= false then
-                recipient:AddPlayer(ply)
-            end
-        end
-    end
-
-    return recipient
-end
-
 local function getSyncTable(identifier)
-    syncTables[identifier] = syncTables[identifier] or { listeners = {} }
+    syncTables[identifier] = syncTables[identifier] or {
+        listeners = {}
+    }
+
     return syncTables[identifier]
 end
 
 function Aw.Net:SyncTable(sIdentifier, tValue)
     local syncTable = getSyncTable(sIdentifier)
-    local currentTable = syncTable.value
-    local type
 
-    if not currentTable then
-        type = Aw.SyncFlag.InitialValue
-        currentTable = tValue
-    else
-        type = Aw.SyncFlag.Merge
-        currentTable = table.ShallowDiff(tValue, currentTable)
+    for ply, snapshot in pairs(syncTable.listeners) do
+        if IsValid(ply) then
+            local type, value
+
+            if not snapshot then
+                type = Aw.SyncFlag.InitialValue
+                value = tValue
+            else
+                type = Aw.SyncFlag.Merge
+                value = table.ShallowDiff(tValue, snapshot)
+            end
+
+            local proxiesResult = Aw.Net:CallProxies(sIdentifier, ply, value, type)
+            if #value > 0 and proxiesResult then
+                net.Start("AW.SyncTable")
+                    net.WriteString(sIdentifier)
+                    net.WriteUInt(type, 2)
+                    net.SafeWriteTable(value)
+                net.Send(ply)
+
+                syncTable.listeners[ply] = table.Copy(tValue)
+            end
+        else
+            syncTable.listeners[ply] = nil
+        end
     end
 
     syncTable.value = table.Copy(tValue)
-
-    local recipient = getPlayers(sIdentifier, currentTable)
-
-    net.Start("AW.SyncTable")
-        net.WriteString(sIdentifier)
-        net.WriteUInt(type, 2)
-        net.SafeWriteTable(currentTable)
-    net.Send(recipient)
 end
 
 util.AddNetworkString("AW.SyncTable")
@@ -68,16 +64,9 @@ net.Receive("AW.SyncTable", function(len, ply)
     local identifier = net.ReadString()
     local syncTable = getSyncTable(identifier)
 
-    table.insert(syncTable.listeners, ply)
+    syncTable.listeners[ply] = syncTable.listeners[ply] or false
 
     if syncTable.value then
-        local proxiesResult = Aw.Net:CallProxies(identifier, ply, syncTable.value, Aw.SyncFlag.InitialValue)
-        if proxiesResult ~= false then
-            net.Start("AW.SyncTable")
-                net.WriteString(identifier)
-                net.WriteUInt(Aw.SyncFlag.InitialValue, 2)
-                net.SafeWriteTable(syncTable.value)
-            net.Send(ply)
-        end
+        Aw.Net:SyncTable(identifier, syncTable.value)
     end
 end)
