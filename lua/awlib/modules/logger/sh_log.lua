@@ -141,7 +141,7 @@ local function LogPrint(log, module, file, line, filecolor, typecolor)
     end
 
     if CLIENT then
-        chat.AddText(filecolor, "[AW]" .. "[" .. module .. "] ", typecolor, log .. "~> @" .. file .. ":" .. line .. "\n")
+        chat.AddText(filecolor, "[AW]" .. "[" .. module .. "] ", typecolor, log .. "~> @" .. file .. ":" .. line )
     else
         MsgC(filecolor, "[AW]" .. "[" .. module .. "] ", typecolor, log, " ~> @" .. file .. ":" .. line .. "\n")
     end
@@ -163,7 +163,7 @@ local function getModuleName(src)
 end
 
 Aw.MinimumLogLevel = {
-    Global = 1
+    Global = 0
 }
 
 function Aw:SetLogLevel(level)
