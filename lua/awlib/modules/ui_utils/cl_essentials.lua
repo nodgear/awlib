@@ -244,3 +244,29 @@ function draw.LinearGradient(x, y, w, h, stops, horizontal)
 	end
 	mesh.End()
 end
+
+
+function Aw.UI:BuildButtonSizes(pnl)
+    local TotalButtons = #pnl.Buttons
+    for _, button in pairs(pnl.Buttons) do
+        if !button:GetDisableAutoSize() then
+            button:Dock(LEFT)
+        end
+        button.PerformLayout = function(s,w,h)
+            local totalmargin = (s:GetMargin() * (TotalButtons-1) )
+
+            if !s:GetDisableAutoSize() then
+                if pnl.Buttons[TotalButtons] == s then
+                    s:DockMargin( s.Margin / 2, 0, 0, 0 )
+                    s:SetWide(s.Body:GetWide() / TotalButtons - s.Margin/2)
+                elseif pnl.Buttons[1] == s then
+                    s:DockMargin( 0, 0, s.Margin / 2, 0 )
+                    s:SetWide(s.Body:GetWide() / TotalButtons - s.Margin/2)
+                else
+                    s:DockMargin( s.Margin / 2, 0, s.Margin / 2, 0 )
+                    s:SetWide(s.Body:GetWide() / TotalButtons - s.Margin)
+                end
+            end
+        end
+    end
+end

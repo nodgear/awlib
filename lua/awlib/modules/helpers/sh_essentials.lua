@@ -1,3 +1,5 @@
+-- Easing functions, publicy available
+
 function Aw.UI:Ease(t, b, c, d)
 	t = t / d
 	local ts = t * t

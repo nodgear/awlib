@@ -1,6 +1,7 @@
 --[[
 	LICENSE:
 	Definitions:
+		the Bundle (hereby this repository and it's contents apart from thirdparty licensed items)
 		the Xenin/XeninUI Copyright Owner (hereby Patrick Ratzow) under Custom Software License
 		the Awesome Copyright Owner (hereby Matheus A.) under Custom Software License
 		the XLib Copyright Owner (hereby Xavier B.) under MIT License
@@ -8,10 +9,15 @@
 		Garry's Mod Marketplace is any online and offline marketplace that sells Garry's Mod game modifications in any way, including, but not limited to Gmodstore.com
 
 	Ownership:
-		the use of this library is intended, but not limited to the use by Awesome Copyright owner on Garry's Mod Marketplace
-		modifying, selling or sharing this piece of software is not allowed unless respecting all above licenses
-
+		the use of this bundle is intended, but not limited to the use by Awesome Copyright owner on Garry's Mod Marketplace
+		modifying, selling or sharing this piece of software is not allowed unless respecting all licenses from the respective softwares contained in this library
 ]]--
+
+-- Module: Shared utils
+-- Author:
+--      Xenin Team
+-- 	    Nodge
+
 
 function Aw:RemoveDebounce(name)
 	timer.Remove("_debounce." .. name)

@@ -19,6 +19,25 @@
 --      Xenin Team
 --      Nodge
 
+
+
+
+--- Simple circle - AwUI
+
+function Aw.UI:SimpleCircle(x, y, r)
+	local poly = {}
+
+	for i = 1, 360 do
+		poly[i] = {}
+		poly[i].x = x + math.cos( math.rad(i * 360 ) / 360 ) * r
+		poly[i].y = y + math.sin( math.rad( i * 360 ) / 360 ) * r
+	end
+
+	surface.DrawPoly(poly)
+end
+
+
+
 local _R = debug.getregistry()
 if (_R.Circles) then return _R.Circles end
 
@@ -462,3 +481,4 @@ _R.Circles = {
 }
 
 return _R.Circles
+

@@ -100,7 +100,7 @@ end
 
 function Aw.UI:DrawIcon(x, y, w, h, pnl, col, loadCol, var)
 	col = col or color_white
-	loadCol = loadCol or color_red
+	loadCol = loadCol or color_green
 	var = var or "Icon"
 
 	if (pnl[var] and type(pnl[var]) == "IMaterial") then
