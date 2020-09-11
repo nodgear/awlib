@@ -1,3 +1,30 @@
+--[[
+Awesome Lib - Over engineered button
+Usage:
+    button = self.container:Add("Aw.UI.Panel.Button")
+    button:SetText(string) -- Guess what
+    button:SetBody(self.container) -- Only needed when using auto size.
+    button:SetDisabled(boolean) -- Blocked buttons can't be clicked, and will display a blocked cursor. (optional).
+    button:SetBordered(boolean) -- If the buttons should be an outlined button (optional).
+    button:SetBorderThickness(number) -- Set the thickness of the border (optional).
+    button:SetBackgroundColor(color) -- Set's the background color (optional).
+    button:SetBorderColor(color) -- Set's the border color (optional).
+    button:SetHoverColor(color) -- Set's color when hovering (optional).
+    button:SetShadow(boolean) -- Should draw shadow behind the button? (option).
+    button:SetMargin(number) -- Horizontal margin between buttons (optional).
+    button:SetRadius(number) -- Corner border radius (optional).
+    button:SetMaterialClick(boolean) -- Makes a material like click effect when the button is clicked (optional).
+    button:SetMaterialClickColor(color) -- Color of the material click effect (optional).
+    button:SetMaterialClickSpeed(number) -- Speed for the material click effect (default 5) (optional).
+    button:SetIconURL(string) -- ImgurID: Downloads and draws icon based on this imgur url.
+    button:AutoSize(boolean) -- If true, the button will resize itself to fit the container within the other buttons.
+    button:Deploy() -- Inject all options to the panel variables (optional).
+           ^^^ -- if you're overriding panel Paint(), OnCursorEntered() + OnCursorExited() you don't need to call this.
+
+    -- After creating all buttons from the container, we call BuildButtonSizes (if autosize is enabled)
+    Aw.UI:BuildButtonSizes(self.ActionsContainer)
+]]--
+
 local pnl = {}
 
 AccessorFunc(pnl, "m_bordered",   "Bordered"          , FORCE_BOOL)
@@ -62,8 +89,6 @@ function pnl:Paint(w,h)
     else
         draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
-
-
 end
 
 function pnl:SetText(sText)
@@ -72,24 +97,24 @@ function pnl:SetText(sText)
 end
 
 function pnl:Deploy()
-    self.Bordered = self:GetBordered() or false
-    self.Background = self:GetBackgroundColor() or AwAdmin.Config.ColorNavbar
-    self.Hover = self:GetHoverColor() or AwAdmin.Config.ColorAccent
-    self.Disabled = self:GetDisabled() or false
-    self.Shadow = self:GetShadow() or false
-    self.Icon = self:GetIconURL() or false
-    self.Border = self:GetBorderThickness() or 1
-    self.Radius = self:GetRadius() or 6
-    self.AutoSize = self:GetDisableAutoSize() or false
-    self.ReactColor = self:GetMaterialClickColor() or color_white
-    self.Body = self:GetBody() or self:GetParent()
-    self.Margin = self:GetMargin() or 0
-    self.IconMargin = self:GetIconMargin() or 8
-    self.Body.Buttons = self.Body.Buttons or {}
+    self.Bordered                            = self:GetBordered() or false
+    self.Background                          = self:GetBackgroundColor() or AwAdmin.Config.ColorNavbar
+    self.Hover                               = self:GetHoverColor() or AwAdmin.Config.ColorAccent
+    self.Disabled                            = self:GetDisabled() or false
+    self.Shadow                              = self:GetShadow() or false
+    self.Icon                                = self:GetIconURL() or false
+    self.Border                              = self:GetBorderThickness() or 1
+    self.Radius                              = self:GetRadius() or 6
+    self.AutoSize                            = self:GetDisableAutoSize() or false
+    self.ReactColor                          = self:GetMaterialClickColor() or color_white
+    self.Body                                = self:GetBody() or self:GetParent()
+    self.Margin                              = self:GetMargin() or 0
+    self.IconMargin                          = self:GetIconMargin() or 8
+    self.Body.Buttons                        = self.Body.Buttons or {}
     self.Body.Buttons[#self.Body.Buttons +1] = self
-    self:SetZPos(#self.Body.Buttons)
     self.mRad, self.mAlpha, self.mX, self.mY = 0, 0, 0, 0
-    self.mSpeed = self:GetMaterialClickSpeed() or 5
+    self.mSpeed                              = self:GetMaterialClickSpeed() or 5
+    self:SetZPos(#self.Body.Buttons)
 
     if self.Icon then Aw.UI:DownloadIcon(self, self.Icon) end
     self.Color = self.Background -- yes, that's exactly what you're reading
