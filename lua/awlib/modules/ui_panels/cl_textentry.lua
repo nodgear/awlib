@@ -102,5 +102,5 @@ function pnl:Paint(w, h)
 	draw.RoundedBox(self:GetRounded(), 0, 0, w, h, self:GetBackgroundColor())
 end
 
-vgui.Register("Aw.UI.TextEntry", pnl)
+vgui.Register("Aw.UI.Panel.TextEntry", pnl)
 
