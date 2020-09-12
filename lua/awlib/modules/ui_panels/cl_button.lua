@@ -121,8 +121,8 @@ function pnl:Deploy()
 end
 
 function pnl:OnCursorEntered()
-    self:SetCursor(self.GetDisabled() and "no" or "hand")
-    if self.GetDisabled() then return end
+    self:SetCursor(self:GetDisabled() and "no" or "hand")
+    if self:GetDisabled() then return end
     self:LerpColor("Color", self.Hover, .4)
     self:Lerp("Alpha", 255)
     self:Lerp("TextAlpha", 255)
