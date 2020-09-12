@@ -1,4 +1,5 @@
 -- Easing functions, publicy available
+Aw.UI = Aw.UI or {}
 
 function Aw.UI:Ease(t, b, c, d)
 	t = t / d
