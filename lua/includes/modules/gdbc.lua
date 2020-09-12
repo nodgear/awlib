@@ -185,8 +185,13 @@ function Query:run(...)
 	if self.format and not query then
 		-- TODO: Switch to **actual** prepared statements
 		sql = ""
-		local l = #self.sql
+		local l, skip = #self.sql, false
 		for i=1, l do
+			if skip then
+				skip = false
+				continue
+			end
+
 			local c = self.sql[i]
 			if c == '?' then
 				local s = table.remove(self.formatargs, 1)
@@ -196,7 +201,11 @@ function Query:run(...)
 					s = self.sequence.database:escape(s)
 				end
 
-				if isnumber(s) or s == 'NULL' then
+				if isnumber(s) or s == 'NULL' or self.sql[i + 1] == '#' then
+					if self.sql[i + 1] == '#' then
+						skip = true
+					end
+
 					sql = sql .. s
 				else
 					sql = sql .. "'" .. s .. "'"
