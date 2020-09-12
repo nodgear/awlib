@@ -189,7 +189,6 @@ function pnl:Think()
 
   if Animating then
     self:GetParent():InvalidateLayout(false)
-    print("animating")
   end
 
   if CurrentState ~= self.MouseInbound then
