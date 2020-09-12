@@ -9,7 +9,7 @@ xloader("awlib", function(f)
         timer.Remove("_load.awLib")
     end
 
-    timer.Create("_load.awLib", wait, 1, function()
+    timer.Create("_load.awLib", .4, 1, function()
         hook.Run("AWESOME.LIB.Hook.Loaded")
         timer.Remove("_load.awLib")
     end)
