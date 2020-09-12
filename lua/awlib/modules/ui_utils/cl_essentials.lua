@@ -288,3 +288,12 @@ function Aw.UI:EaseInOutQuintic(t, b, c, d)
 	--return b + c * ts
 	return b + c * (6 * tc * ts + -15 * ts * ts + 10 * tc)
 end
+
+function Aw.UI:LerpColor(fract, from, to)
+	return Color(
+		Lerp(fract, from.r, to.r),
+		Lerp(fract, from.g, to.g),
+		Lerp(fract, from.b, to.b),
+		Lerp(fract, from.a or 255, to.a or 255)
+	)
+end
