@@ -121,8 +121,8 @@ function pnl:Deploy()
 end
 
 function pnl:OnCursorEntered()
-    self:SetCursor(self.Disabled and "no" or "hand")
-    if self.Disabled then return end
+    self:SetCursor(self.GetDisabled() and "no" or "hand")
+    if self.GetDisabled() then return end
     self:LerpColor("Color", self.Hover, .4)
     self:Lerp("Alpha", 255)
     self:Lerp("TextAlpha", 255)
@@ -164,9 +164,12 @@ function pnl:DoScrollDown()
 end
 
 function pnl:OnMousePressed(sKey)
+    if self:GetDisabled() then
+        return
+    end
+
     if sKey == MOUSE_LEFT then
         if self:GetMaterialClick() then
-            print("Pressed")
             self.mX, self.mY = self:CursorPos()
             self.mRad = 0
             self.mAlpha = 255
