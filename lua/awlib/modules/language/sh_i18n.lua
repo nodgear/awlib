@@ -67,7 +67,9 @@ function Aw.L:Translate(sAddon, sPhrase, ...)
     if !self[sAddon] then return end
 
     if self[sAddon]["phrases"] then
-        local i18n   = self[sAddon]["phrases"][context][str] or sPhrase
+        if !self[sAddon]["phrases"] then return sPhrase end
+        if !self[sAddon]["phrases"][context] then return sPhrase end
+        local i18n   = self[sAddon]["phrases"][context][str]
         result = i18n and (select("#", ...) > 0 and string.format(i18n, ...) or i18n) or sPhrase
     end
 
