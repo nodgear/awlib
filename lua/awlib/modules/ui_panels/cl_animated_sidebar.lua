@@ -8,6 +8,7 @@ function pnl:Init()
 
     Aw.UI:CreateFont("AdminUI.Sidebar.Name", 18, "Montserrat SemiBold")
 
+
   self.Scroll = self:Add("Aw.UI.Panel.Scroll")
   self.Scroll:Dock(FILL)
   self.Scroll:DockMargin(16, 16, 16, 16)
@@ -67,10 +68,17 @@ function pnl:CreatePanel(name, panelClass, icon, tbl)
   tbl.colors = tbl.colors or {}
   local startCol = tbl.colors[1] or Color(158, 53, 210)
   local endCol = tbl.colors[2] or Color(109, 77, 213)
+  local btn
 
-  local btn = self.Scroll:Add("DButton")
-  btn:Dock(TOP)
-  btn:DockMargin(0, 8, 0, 8)
+  if tbl.position == 4 then
+    btn = self.Scroll:Add("DButton")
+    btn:DockMargin(0, 8, 0, 8)
+  else
+    btn = self:Add("DButton")
+    btn:SetZPos(12)
+    btn:DockMargin(16, 16, 16, 16)
+  end
+  btn:Dock(tbl.position or TOP)
   btn.Name = name
   btn.Icon = icon
   btn.Tbl = tbl
@@ -100,6 +108,7 @@ function pnl:CreatePanel(name, panelClass, icon, tbl)
   btn.DoClick = function(pnl)
     self:SetActive(pnl.Id)
   end
+
 
   if (!IsValid(self:GetBody())) then
     Error("Failed to find body for panel " .. tostring(panelClass))
