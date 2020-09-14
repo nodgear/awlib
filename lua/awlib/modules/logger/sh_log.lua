@@ -153,7 +153,7 @@ local function getModuleName(src)
     local sModule = string.Explode("/", src)
     for _, c in pairs(sModule) do
         if c == "modules" then
-            iModuleStart = _
+            iModuleStart = _ + 1
         end
     end
 
