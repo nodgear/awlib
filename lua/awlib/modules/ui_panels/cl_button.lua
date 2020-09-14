@@ -27,10 +27,10 @@ Usage:
 
 local pnl = {}
 
-AccessorFunc(pnl, "m_bordered",   "Bordered"          , FORCE_BOOL)
-AccessorFunc(pnl, "m_shadow"  ,   "Shadow"            , FORCE_BOOL)
-AccessorFunc(pnl, "m_autosize",   "DisableAutoSize"   , FORCE_BOOL)
-AccessorFunc(pnl, "m_disabled",   "Disabled"          , FORCE_BOOL)
+AccessorFunc(pnl, "m_bordered",   "Bordered"          , FORCE_BOOL  )
+AccessorFunc(pnl, "m_shadow"  ,   "Shadow"            , FORCE_BOOL  )
+AccessorFunc(pnl, "m_autosize",   "DisableAutoSize"   , FORCE_BOOL  )
+AccessorFunc(pnl, "m_disabled",   "Disabled"          , FORCE_BOOL  )
 AccessorFunc(pnl, "m_radius"    , "Radius"            , FORCE_NUMBER)
 AccessorFunc(pnl, "m_borderw"   , "BorderThickness"   , FORCE_NUMBER)
 AccessorFunc(pnl, "m_reactspeed", "MaterialClickSpeed", FORCE_NUMBER)
@@ -81,9 +81,9 @@ function pnl:Paint(w,h)
         surface.SetFont("Aw.UI.Font.Button")
         local tw, th = surface.GetTextSize(self.Text)
         local iw, ih = 0, 0
-        local iconsize = 16
+        local iconsize = h * .4
 
-        Aw.UI:DrawIcon(w/2 - iconsize/2 - tw/2 - self.IconMargin, h/2 - iconsize/2, iconsize, iconsize, self, ColorAlpha(color_white, self.TextAlpha))
+        Aw.UI:DrawIcon(self.Text == "" and (w/2 - iconsize/2) or (w/2 - iconsize/2 - tw/2 - self.IconMargin), h/2 - iconsize/2, iconsize, iconsize, self, ColorAlpha(color_white, self.TextAlpha))
 
         draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2 - tw/2 + iconsize/2 + self.IconMargin, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     else
