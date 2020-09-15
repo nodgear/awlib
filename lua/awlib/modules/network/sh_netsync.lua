@@ -33,8 +33,10 @@ function Aw.Net:CallProxies(sIdentifier, pPlayer, tValue, nType)
         local proxyResult = callback(pPlayer, tValue, nType)
         if proxyResult == false then
             return false
+        elseif istable(proxyResult) then
+            tValue = proxyResult
         end
     end
 
-    return true
+    return tValue
 end

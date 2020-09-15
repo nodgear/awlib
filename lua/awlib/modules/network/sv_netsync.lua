@@ -41,11 +41,11 @@ function Aw.Net:SyncTable(sIdentifier, tValue)
             end
 
             local proxiesResult = Aw.Net:CallProxies(sIdentifier, ply, value, type)
-            if table.Count(value) > 0 and proxiesResult then
+            if istable(proxiesResult) and table.Count(proxiesResult) > 0 then
                 net.Start("AW.SyncTable")
                     net.WriteString(sIdentifier)
                     net.WriteUInt(type, 2)
-                    net.SafeWriteTable(value)
+                    net.SafeWriteTable(proxiesResult)
                 net.Send(ply)
 
                 syncTable.listeners[ply] = table.Copy(tValue)
