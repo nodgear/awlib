@@ -34,7 +34,9 @@ function Aw.L:Download(sAddon)
     local Path = string.lower(sAddon) .. "/languages/" .. LanguageCode .. ".json"
     local File = util.JSONToTable(file.Read(Path, "LUA") or "{\"version\":0}")
     http.Fetch( URL , function(sBody)
-        local Remote = util.JSONToTable(sBody)
+        local Remote
+        Remote = util.JSONToTable(sBody)
+        if not Remote then Remote = {} end
         Remote.version = Remote.version or 0
         self[sAddon].phrases = tonumber(File.version) >= tonumber(Remote.version) and File.phrases or Remote.phrases
     end, function(err)
