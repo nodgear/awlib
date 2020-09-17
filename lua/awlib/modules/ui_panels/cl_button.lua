@@ -36,6 +36,7 @@ AccessorFunc(pnl, "m_borderw"   , "BorderThickness"   , FORCE_NUMBER)
 AccessorFunc(pnl, "m_reactspeed", "MaterialClickSpeed", FORCE_NUMBER)
 AccessorFunc(pnl, "m_margin"    , "Margin"            , FORCE_NUMBER)
 AccessorFunc(pnl, "m_iconmargin", "IconMargin"        , FORCE_NUMBER)
+AccessorFunc(pnl, "m_sizetocontent", "SizeToContent"  )
 AccessorFunc(pnl, "m_background", "BackgroundColor"   )
 AccessorFunc(pnl, "m_border"    , "BorderColor"       )
 AccessorFunc(pnl, "m_icon"      , "IconURL"           )
@@ -54,6 +55,8 @@ function pnl:Init()
 end
 
 function pnl:Paint(w,h)
+    local iconsize = h * .4
+    
     if self.Bordered then
         Aw.UI:MaskInverse(function()
             Aw.UI:DrawRoundedBox(self.Radius, self.Border, self.Border, w - ( self.Border * 2 ), h - ( self.Border * 2 ), color_white, true, true, true, true)
@@ -79,15 +82,17 @@ function pnl:Paint(w,h)
     end
     if self.Icon then
         surface.SetFont("Aw.UI.Font.Button")
-        local tw, th = surface.GetTextSize(self.Text)
+        tw, th = surface.GetTextSize(self.Text)
         local iw, ih = 0, 0
-        local iconsize = h * .4
 
         Aw.UI:DrawIcon(self.Text == "" and (w/2 - iconsize/2) or (w/2 - iconsize/2 - tw/2 - self.IconMargin), h/2 - iconsize/2, iconsize, iconsize, self, ColorAlpha(color_white, self.TextAlpha))
 
         draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2 - tw/2 + iconsize/2 + self.IconMargin, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     else
-        draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        tw, th = draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    end
+    if self:GetSizeToContent() then
+        self:SetWide( tw + iconsize + self.IconMargin + 32 )
     end
 end
 
