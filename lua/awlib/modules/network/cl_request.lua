@@ -19,7 +19,8 @@
 local promises = {}
 
 local function buildRequestIdentifier(identifier)
-    return string.format("%s:%s", math.random(1, 1000000), identifier)
+    -- return string.format("%s:%s", math.random(1, 1000000), identifier)
+    return string.format("%s:%s", math.random( math.Round(CurTime()), os.time() + 1000000 ), identifier)
 end
 
 function Aw.Net:ServerRequest(sIdentifier, fCallback, ...)
