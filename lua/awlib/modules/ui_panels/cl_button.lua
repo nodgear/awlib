@@ -56,7 +56,7 @@ end
 
 function pnl:Paint(w,h)
     local iconsize = h * .4
-    
+
     if self.Bordered then
         Aw.UI:MaskInverse(function()
             Aw.UI:DrawRoundedBox(self.Radius, self.Border, self.Border, w - ( self.Border * 2 ), h - ( self.Border * 2 ), color_white, true, true, true, true)
@@ -92,7 +92,7 @@ function pnl:Paint(w,h)
         tw, th = draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     if self:GetSizeToContent() then
-        self:SetWide( tw + iconsize + self.IconMargin + 32 )
+        self:SetWide( tw + iconsize + self.IconMargin + 16 )
     end
 end
 
