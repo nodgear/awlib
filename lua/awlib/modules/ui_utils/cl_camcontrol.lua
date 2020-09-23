@@ -1,11 +1,11 @@
 --- @module Utils.Cam
 -- Provides interface for camera lerp and animation.
 
-AWESOME.UTIL = AWESOME.UTIL or {}
-AWESOME.UTIL.Cam = AWESOME.UTIL.Cam or {}
-AWESOME.UTIL.Cam.tCamVars = {}
+AW = AW or {}
+AW.Cam = AW.Cam or {}
+AW.Cam.tCamVars = {}
 
-function AWESOME.UTIL.Cam:Running()
+function AW.Cam:Running()
 	return (self.tCamVars.Done or self.tCamVars.StartTime) and true or false
 end
 
@@ -14,12 +14,12 @@ end
 -- @bool bSamePath Wether should the camera return the same path before beeing removed.
 -- @number iTime Total time to return
 -- @realm client
-function AWESOME.UTIL.Cam:ClearCamera( bSamePath, iTime)
+function AW.Cam:ClearCamera( bSamePath, iTime)
 
 	if bSamePath and iTime then
-		AWESOME.UTIL.Cam:JumpFromTo( self.tCamVars.To.pos, self.tCamVars.To.ang, self.tCamVars.Current.fov, LocalPlayer():EyePos(), LocalPlayer():EyeAngles(), LocalPlayer():GetFOV(), iTime, function()
+		AW.Cam:JumpFromTo( self.tCamVars.To.pos, self.tCamVars.To.ang, self.tCamVars.Current.fov, LocalPlayer():EyePos(), LocalPlayer():EyeAngles(), LocalPlayer():GetFOV(), iTime, function()
 			timer.Simple(.1, function()
-				AWESOME.UTIL.Cam:ClearCamera()
+				AW.Cam:ClearCamera()
 			end)
 		end)
 	else
@@ -35,7 +35,7 @@ end
 -- @angle angAngs Origin angles
 -- @number intFOV FOV
 -- @realm client
-function AWESOME.UTIL.Cam:CalcView( pPlayer, vecOrigin, angAngs, intFOV )
+function AW.Cam:CalcView( pPlayer, vecOrigin, angAngs, intFOV )
 	if not self.tCamVars.StartTime then return end
 
 	return {
@@ -57,7 +57,7 @@ end
 
 local rx = Angle(0,0,0)
 
-function AWESOME.UTIL.Cam:Think()
+function AW.Cam:Think()
 	if not self.tCamVars.StartTime then return end
 
 	if RealTime() >= self.tCamVars.StartTime +self.tCamVars.Length then
@@ -106,7 +106,7 @@ end
 -- @realm client
 
 
-function AWESOME.UTIL.Cam:JumpFromTo( vFrom, aFrom, intFovFrom, vTo, aTo, intFOVTo, intLen, funcCallback, bViewModel, bJiggle, xJiggleMax )
+function AW.Cam:JumpFromTo( vFrom, aFrom, intFovFrom, vTo, aTo, intFOVTo, intLen, funcCallback, bViewModel, bJiggle, xJiggleMax )
 	self:ClearCamera()
 
 	self.tCamVars = {
@@ -138,7 +138,7 @@ end
 -- @bool bViewModel If true, the player will be able to see himself
 -- @bool bJiggle If true, the camera will jiggle, simulating a handheld camera.
 -- @realm client
-function AWESOME.UTIL.Cam:JumpFromToFollow( entFollow, vFrom, aFrom, intFovFrom, vTo, aTo, intFOVTo, intLen, funcCallback, bViewModel, bJiggle)
+function AW.Cam:JumpFromToFollow( entFollow, vFrom, aFrom, intFovFrom, vTo, aTo, intFOVTo, intLen, funcCallback, bViewModel, bJiggle)
 	self:ClearCamera()
 
 	self.tCamVars = {
@@ -179,10 +179,10 @@ AddDev("se.cam.goto", function(pPlayer, sCMD, tArgs, sArg)
 	timeend = tonumber(timeend) or 0
 
 
-	AWESOME.UTIL.Cam:JumpFromTo( LocalPlayer():GetPos() + Vector(0,0,64), LocalPlayer():EyeAngles(), LocalPlayer():GetFOV(), pos, ang, LocalPlayer():GetFOV(), time, function()
+	AW.Cam:JumpFromTo( LocalPlayer():GetPos() + Vector(0,0,64), LocalPlayer():EyeAngles(), LocalPlayer():GetFOV(), pos, ang, LocalPlayer():GetFOV(), time, function()
 		if timeend then
 			timer.Simple(timeend, function()
-				AWESOME.UTIL.Cam:ClearCamera()
+				AW.Cam:ClearCamera()
 			end)
 		end
 	end)
@@ -191,12 +191,12 @@ AddDev("se.cam.goto", function(pPlayer, sCMD, tArgs, sArg)
 
 end, CLIENT, "Makes your cammera animate to the desired position and angle. You can use se.util.getpos to get positions easily \n {command formated position (from)} { command formated angle (from)} {command formated position (to)} { command formated angle (ro)}")
 
-hook.Add("Think", "AWESOME.UTIL.Think", function()
-	AWESOME.UTIL.Cam:Think()
+hook.Add("Think", "AW.Think", function()
+	AW.Cam:Think()
 end)
 
 hook.Add("CalcView", "SERERNITY.Cam.CalcView", function()
-	if AWESOME.UTIL.Cam:Running() then
-		return AWESOME.UTIL.Cam:CalcView( pPlayer, vecOrigin, angAngs, intFOV )
+	if AW.Cam:Running() then
+		return AW.Cam:CalcView( pPlayer, vecOrigin, angAngs, intFOV )
 	end
 end)
