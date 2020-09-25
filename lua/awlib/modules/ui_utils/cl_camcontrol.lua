@@ -156,40 +156,40 @@ function AW.Cam:JumpFromToFollow( entFollow, vFrom, aFrom, intFovFrom, vTo, aTo,
 	}
 end
 -- concommand.Remove("se.cam.goto")
-AddDev("se.cam.goto", function(pPlayer, sCMD, tArgs, sArg)
+-- AddDev("se.cam.goto", function(pPlayer, sCMD, tArgs, sArg)
 
-	local px = tArgs[1]
-	local py = tArgs[2]
-	local pz = tArgs[3]
+-- 	local px = tArgs[1]
+-- 	local py = tArgs[2]
+-- 	local pz = tArgs[3]
 
-	local ax = tArgs[4]
-	local ay = tArgs[5]
-	local az = tArgs[6]
+-- 	local ax = tArgs[4]
+-- 	local ay = tArgs[5]
+-- 	local az = tArgs[6]
 
-	local time = tArgs[7]
-	local timeend = tArgs[8]
+-- 	local time = tArgs[7]
+-- 	local timeend = tArgs[8]
 
-	if !px || !py || !pz || !ax || !ay || !az then print("You have one or more position/angle missing on the command.") return end
-	if !time then print("You have to decide a lenght in seconds to the travel") return end
-	if !timeend then print("No stop time was given, remember to run se.cam.stop to exit the camera view!") end
+-- 	if !px || !py || !pz || !ax || !ay || !az then print("You have one or more position/angle missing on the command.") return end
+-- 	if !time then print("You have to decide a lenght in seconds to the travel") return end
+-- 	if !timeend then print("No stop time was given, remember to run se.cam.stop to exit the camera view!") end
 
-	local pos = Vector( px, py,  pz )
-	local ang = Angle( ax, ay, az )
-	time = tonumber(time)
-	timeend = tonumber(timeend) or 0
-
-
-	AW.Cam:JumpFromTo( LocalPlayer():GetPos() + Vector(0,0,64), LocalPlayer():EyeAngles(), LocalPlayer():GetFOV(), pos, ang, LocalPlayer():GetFOV(), time, function()
-		if timeend then
-			timer.Simple(timeend, function()
-				AW.Cam:ClearCamera()
-			end)
-		end
-	end)
+-- 	local pos = Vector( px, py,  pz )
+-- 	local ang = Angle( ax, ay, az )
+-- 	time = tonumber(time)
+-- 	timeend = tonumber(timeend) or 0
 
 
+-- 	AW.Cam:JumpFromTo( LocalPlayer():GetPos() + Vector(0,0,64), LocalPlayer():EyeAngles(), LocalPlayer():GetFOV(), pos, ang, LocalPlayer():GetFOV(), time, function()
+-- 		if timeend then
+-- 			timer.Simple(timeend, function()
+-- 				AW.Cam:ClearCamera()
+-- 			end)
+-- 		end
+-- 	end)
 
-end, CLIENT, "Makes your cammera animate to the desired position and angle. You can use se.util.getpos to get positions easily \n {command formated position (from)} { command formated angle (from)} {command formated position (to)} { command formated angle (ro)}")
+
+
+-- end, CLIENT, "Makes your cammera animate to the desired position and angle. You can use se.util.getpos to get positions easily \n {command formated position (from)} { command formated angle (from)} {command formated position (to)} { command formated angle (ro)}")
 
 hook.Add("Think", "AW.Think", function()
 	AW.Cam:Think()
