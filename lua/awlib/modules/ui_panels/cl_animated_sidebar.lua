@@ -1,4 +1,3 @@
--- TODO: Move AwAdmin namespaces to Aw / Aw.UI
 Aw.UI = Aw.UI or {}
 
 local pnl = {}
@@ -184,14 +183,6 @@ function pnl:PerformLayout(w,h)
   self.Header:SetTall(38)
 end
 
-function pnl:InBound()
-    local w, h = self:GetWide(), self:GetTall()
-    local px, py = self:LocalToScreen()
-    local mx, my = gui.MousePos()
-    local tx, ty = math.Clamp(mx - px, -1, w + 1), math.Clamp(my - py, -1, h + 1)
-    return  (tx < w and tx >= 0) and (ty < h + 1 and ty >= 0)
-end
-
 function pnl:Think()
   local CurrentState = self:InBound()
   self:SetWide(self.Wide)
@@ -217,26 +208,3 @@ function pnl:Paint(w,h)
   Aw.UI:DrawRoundedBoxEx(6, 0, 0, w, h, AwAdmin.Config.ColorNavbar, true, false, true, false)
 end
 vgui.Register("Aw.UI.Panel.AnimatedSidebar", pnl)
-
-
--- TODO: Move to scrollpanel
-
-local pnl = {}
-
-function pnl:Init()
-  self.VBar:SetWide(12)
-  self.VBar:SetHideButtons(true)
-
-  self.VBar.Paint = function(pnl, w, h)
-    draw.RoundedBox(6, 0, 0, w, h, ColorAlpha(AwAdmin.Config.ColorNavbar, 150))
-  end
-  self.VBar.btnGrip.Paint = function(pnl, w, h)
-    draw.RoundedBox(6, 0, 0, w, h, AwAdmin.Config.ColorAccent)
-  end
-end
-
-function pnl:HideScrollBar(hide)
-	self.VBar:SetWide((hide and 0) or 12)
-end
-
-vgui.Register("Aw.UI.Panel.Scroll", pnl, "DScrollPanel")
