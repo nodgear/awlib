@@ -159,7 +159,7 @@ local matLoading = Material("xenin/loading.png", "smooth")
 
 function Aw.UI:DrawLoadingCircle(x, y, size, col)
   surface.SetMaterial(matLoading)
-  surface.SetDrawColor(col or ColorAlpha(XeninUI.Theme.Accent, 100))
+  surface.SetDrawColor(col or ColorAlpha(color_white, 100))
   Aw.UI:DrawRotatedTexture(x, y, size, size, ((ct or CurTime()) % 360) * -100)
 end
 
