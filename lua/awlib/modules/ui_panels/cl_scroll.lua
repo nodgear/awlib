@@ -6,10 +6,10 @@ function pnl:Init()
   self.VBar:SetHideButtons(true)
 
   self.VBar.Paint = function(pnl, w, h)
-    draw.RoundedBox(6, 0, 0, w, h, ColorAlpha(AwAdmin.Config.ColorNavbar, 150))
+    draw.RoundedBox(6, 0, 0, w, h, ColorAlpha(Aw.UI.Theme.navbar, 150))
   end
   self.VBar.btnGrip.Paint = function(pnl, w, h)
-    draw.RoundedBox(6, 0, 0, w, h, AwAdmin.Config.ColorAccent)
+    draw.RoundedBox(6, 0, 0, w, h, Aw.UI.Theme.accent)
   end
 end
 
