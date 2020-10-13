@@ -1,7 +1,14 @@
 Aw.UI = Aw.UI or {}
 Aw.UI.TransitionTime = .3
 
-
+Aw.UI.Theme = {
+    accent = Color(133, 0, 237),
+    navbar = Color(46, 46, 46),
+    primary = Color(35, 35, 35),
+    background = Color(32, 32, 32),
+    text = Color(255, 255, 255),
+    red = Color(255, 0, 0)
+}
 Aw.UI.Emoticons = {}
 
 Aw.UI.Emoticons[":)"] = "icon16/emoticon_smile.png"
