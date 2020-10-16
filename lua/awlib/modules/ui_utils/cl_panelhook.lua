@@ -51,7 +51,6 @@
 	
 		self.BG = Mat
 
-
 		local size = self:GetSize()
 		local texture = self.BG:GetTexture("$basetexture")
 		local tw = texture:GetMappingWidth()
