@@ -75,6 +75,7 @@
 	end
 
 	function PNL:InBound()
+		if !IsValid(self) then return false end
 		local w, h = self:GetWide(), self:GetTall()
 		local px, py = self:LocalToScreen()
 		local mx, my = gui.MousePos()
