@@ -7,7 +7,8 @@ Aw.UI.Theme = {
     primary = Color(35, 35, 35),
     background = Color(32, 32, 32),
     text = Color(255, 255, 255),
-    red = Color(255, 0, 0)
+	red = Color(255, 0, 0),
+	green = Color(95, 230, 46)
 }
 Aw.UI.Emoticons = {}
 
