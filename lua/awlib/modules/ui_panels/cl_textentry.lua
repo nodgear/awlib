@@ -28,7 +28,7 @@ AccessorFunc(pnl, "m_iconColor",        "IconColor"       )
 
 function pnl:Init()
     Aw.UI:CreateFont("Aw.UI.TextEntry", 18, "Montserrat SemiBold")
-	self:SetBackgroundColor(AwAdmin.Config.ColorNavbar)
+	self:SetBackgroundColor(Aw.UI.Theme.navbar)
 	self:SetRounded(6)
 	self:SetPlaceholder("")
 	self:SetTextColor(Color(205, 205, 205))
