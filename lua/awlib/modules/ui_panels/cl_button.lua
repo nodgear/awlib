@@ -50,12 +50,13 @@ function pnl:Init()
     self.TextAlpha = 255
     self.Text = ""
     self.Color = color_black
+    self.Font = "Aw.UI.Font.Button"
 
     Aw.UI:CreateFont("Aw.UI.Font.Button", 18, "Montserrat SemiBold")
 end
 
 function pnl:Paint(w,h)
-    local iconsize = h * .4
+    local iconsize = self.IconPercentage and h * self.IconPercentage or h * .4
 
     if self.Bordered then
         Aw.UI:MaskInverse(function()
@@ -81,15 +82,15 @@ function pnl:Paint(w,h)
         end)
     end
     if self.Icon then
-        surface.SetFont("Aw.UI.Font.Button")
+        surface.SetFont(self.Font)
         tw, th = surface.GetTextSize(self.Text)
         local iw, ih = 0, 0
 
         Aw.UI:DrawIcon(self.Text == "" and (w/2 - iconsize/2) or (w/2 - iconsize/2 - tw/2 - self.IconMargin), h/2 - iconsize/2, iconsize, iconsize, self, ColorAlpha(color_white, self.TextAlpha))
 
-        draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2 - tw/2 + iconsize/2 + self.IconMargin, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        draw.SimpleText(self.Text, self.Font, w/2 - tw/2 + iconsize/4 + self.IconMargin, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     else
-        tw, th = draw.SimpleText(self.Text, "Aw.UI.Font.Button", w/2, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        tw, th = draw.SimpleText(self.Text, self.Font, w/2, h/2, ColorAlpha(color_white, self.TextAlpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     if self:GetSizeToContent() then
         self:SetWide( tw + iconsize + self.IconMargin + 16 )
@@ -189,6 +190,11 @@ function pnl:OnMousePressed(sKey)
     elseif sKey == MOUSE_WHEEL_DOWN then
         self.DoScrollDown()
     end
+end
+
+function pnl:SetFont(sFont)
+    if !sFont then return end
+    self.Font = sFont
 end
 
 vgui.Register("Aw.UI.Panel.Button", pnl, "EditablePanel")
