@@ -202,13 +202,13 @@ function DevCommand(cmd, fn, realm)
 	if realm ~= nil and not realm then return end
 
 	concommand.Add(cmd, function(ply, cmd, args, argstr)
-		if XLIB.IsDeveloper(ply) then
+		if Aw.IsDeveloper(ply) then
 			fn(ply, cmd, args, argstr)
 		end
 	end)
 end
 
-function XLIB.IsDeveloper(ply)
+function Aw.IsDeveloper(ply)
 	if not IsValid(ply) then return true end
 	local override = hook.Run("CanRunDevCommand", ply, cmd, args, argstr) == true
 	return override or (ply.IsDeveloper and ply:IsDeveloper())
@@ -233,9 +233,10 @@ net.Receive("luaoutput", function(l, ply)
 	local str = net.ReadCompressed()
 	local requester = Player(requester_id)
 
-	if SERVER and not isAllowed(requester_id, plid(ply)) or not XLIB.IsDeveloper(requester) then
+	if SERVER and not isAllowed(requester_id, plid(ply)) or not Aw.IsDeveloper(requester) then
 		local msg = SPrint(ply, "sent lua_output of length", l, "to requester who didn't request:", requester_id, requester, "IsDev", XLIB.IsDeveloper(requester))
-		XLIB.Warn(msg)
+        -- XLIB.Warn(msg)
+        -- TODO: Remove XLIB Warn depencency
 		hook.Run("Log::Report", { text = msg, ply = ply })
 		return
 	end
