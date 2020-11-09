@@ -41,7 +41,7 @@ function Aw.Net:SyncTable(sIdentifier, tValue)
             end
 
             local proxiesResult = Aw.Net:CallProxies(sIdentifier, ply, value, type)
-            if istable(proxiesResult) and table.Count(proxiesResult) > 0 then
+            if istable(proxiesResult) and not table.IsEmpty(proxiesResult) then
                 net.Start("AW.SyncTable")
                     net.WriteString(sIdentifier)
                     net.WriteUInt(type, 2)

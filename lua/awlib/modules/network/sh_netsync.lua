@@ -20,14 +20,14 @@ Aw.SyncFlag = {}
 Aw.SyncFlag.InitialValue = 0
 Aw.SyncFlag.Merge = 1
 
-local tableSyncProxies = {}
+Aw.TableSyncProxies = Aw.TableSyncProxies or {}
 function Aw.Net:SetTableSyncProxy(sIdentifier, fCallback)
-    tableSyncProxies[sIdentifier] = tableSyncProxies[sIdentifier] or {}
-    table.insert(tableSyncProxies[sIdentifier], fCallback)
+    Aw.TableSyncProxies[sIdentifier] = Aw.TableSyncProxies[sIdentifier] or {}
+    table.insert(Aw.TableSyncProxies[sIdentifier], fCallback)
 end
 
 function Aw.Net:CallProxies(sIdentifier, pPlayer, tValue, nType)
-    local proxies = tableSyncProxies[sIdentifier] or {}
+    local proxies = Aw.TableSyncProxies[sIdentifier] or {}
 
     for k, callback in ipairs(proxies) do
         local proxyResult = callback(pPlayer, tValue, nType)
