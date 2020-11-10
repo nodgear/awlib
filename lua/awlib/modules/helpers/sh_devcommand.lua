@@ -15,6 +15,21 @@
 
 -- Module: Dev Commands
 -- Author: CSI Team
+--[[
+	LICENSE:
+	Definitions:
+		the Xenin/XeninUI Copyright Owner (hereby Patrick Ratzow) under Custom Software License
+		the Awesome Copyright Owner (hereby Matheus A.) under Custom Software License
+		the XLib Copyright Owner (hereby Xavier B.) under MIT License
+		the Software (hereby the Library and it's contents)
+		Garry's Mod Marketplace is any online and offline marketplace that sells Garry's Mod game modifications in any way, including, but not limited to Gmodstore.com
+	Ownership:
+		the use of this library is intended, but not limited to the use by Awesome Copyright owner on Garry's Mod Marketplace
+		modifying, selling or sharing this piece of software is not allowed unless respecting all above licenses
+]]--
+
+-- Module: Dev Commands
+-- Author: CSI Team
 
 getmetatable(NULL).ChatPrint = function(_, ...)
 	MsgN("NULL:ChatPrint() ", ...)
@@ -124,7 +139,7 @@ local function run_lua(ply, lua, requester)
 		env.veh = IsValid(ply:GetVehicle()) and ply:GetVehicle() or nil
 		env.dir = dir
 		env.plys = all(player.GetAll())
-		env.xlib_lua_running = true
+		env.awesome_lua_running = true
 		if SERVER then
 			env.print = function(...)
 				net.Start("luaoutput")
@@ -234,7 +249,7 @@ net.Receive("luaoutput", function(l, ply)
 	local requester = Player(requester_id)
 
 	if SERVER and not isAllowed(requester_id, plid(ply)) or not Aw.IsDeveloper(requester) then
-		local msg = SPrint(ply, "sent lua_output of length", l, "to requester who didn't request:", requester_id, requester, "IsDev", XLIB.IsDeveloper(requester))
+		local msg = SPrint(ply, "sent lua_output of length", l, "to requester who didn't request:", requester_id, requester, "IsDev", Aw.IsDeveloper(requester))
         -- XLIB.Warn(msg)
         -- TODO: Remove XLIB Warn depencency
 		hook.Run("Log::Report", { text = msg, ply = ply })
@@ -340,9 +355,14 @@ end)
 
 DevCommand("luapl", function(ply, cmd, args, argstr)
 	local targetid = args[1]
+	if not targetid then
+		ply:ChatPrint("Please specify a UserID() as the first argument")
+		return
+	end
+
 	local target = Player(targetid)
 	if not IsValid(target) then
-		ply:ChatPrint("Please specify a UserID() as the first argument")
+		ply:ChatPrint("This target is not valid")
 		return
 	end
 
