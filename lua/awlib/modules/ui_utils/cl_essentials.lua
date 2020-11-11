@@ -297,3 +297,20 @@ function Aw.UI:LerpColor(fract, from, to)
 		Lerp(fract, from.a or 255, to.a or 255)
 	)
 end
+
+
+function draw.TextRotated(text, x, y, color, font, ang)
+	surface.SetFont(font)
+	surface.SetTextColor(color)
+	local textWidth, textHeight = surface.GetTextSize(text)
+	local rad = -math.rad(ang)
+	local halvedPi = math.pi / 2
+	local m = Matrix()
+	m:SetAngles(Angle(0, ang, 0))
+	m:SetTranslation(Vector(x, y, 0))
+	cam.PushModelMatrix(m)
+		surface.SetTextPos(0, 0)
+		surface.DrawText(text)
+	cam.PopModelMatrix()
+
+end
