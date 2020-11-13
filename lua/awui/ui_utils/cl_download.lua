@@ -102,7 +102,12 @@ function Aw.UI:DrawIcon(x, y, w, h, pnl, col, loadCol, var)
 	col = col or color_white
 	loadCol = loadCol or color_green
 	var = var or "Icon"
-	if !pnl then return end
+	if !pnl and type(var) == "string" then
+		surface.SetMaterial(self.CachedIcons[var])
+		surface.SetDrawColor(col)
+		surface.DrawTexturedRect(x, y, w, h)
+		return
+	end
 	if (pnl[var] and type(pnl[var]) == "IMaterial") then
 		surface.SetMaterial(pnl[var])
 		surface.SetDrawColor(col)

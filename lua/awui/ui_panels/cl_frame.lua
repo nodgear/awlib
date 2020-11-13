@@ -2,9 +2,9 @@
 local pnl = {}
 
 AccessorFunc(pnl, "m_canminimize",   "CanMinimize"          , FORCE_BOOL  )
+Aw.UI:CreateFont("Aw.UI.Font.FrameTitle", 21, "Montserrat Semibold")
 
 function pnl:Init()
-  Aw.UI:CreateFont("Aw.UI.Font.FrameTitle", 21, "Montserrat Semibold")
 
   self.closeButton = self:Add("Aw.UI.Panel.Button")
   self.closeButton:SetText("x")
